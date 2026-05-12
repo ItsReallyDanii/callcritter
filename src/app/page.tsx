@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BuiltWithFooter } from "@/components/BuiltWithFooter";
 import { CameraStage } from "@/components/CameraStage";
+import { CanvasEditor } from "@/components/CanvasEditor";
 import { CompanionPreview } from "@/components/CompanionPreview";
 import { DemoScenePicker } from "@/components/DemoScenePicker";
 import { ErrorBanner } from "@/components/ErrorBanner";
@@ -68,6 +69,7 @@ export default function Home() {
     imageUrl: string;
     isFallback: boolean;
   } | null>(null);
+  const [editorOpen, setEditorOpen] = useState(false);
   const [generationUsed, setGenerationUsed] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -92,6 +94,8 @@ export default function Home() {
         return "Generating your companion";
       case "companion_ready":
         return "Companion preview ready";
+      case "canvas_editor":
+        return "Canvas editor ready";
       case "error":
         return "Camera fallback active";
       case "idle":
@@ -203,6 +207,7 @@ export default function Home() {
     setApiErrorMessage(null);
     setAnalysis(null);
     setCompanionImage(null);
+    setEditorOpen(false);
     setLoadingMessage("Reading your scene...");
     setMode("analysis_requested");
 
@@ -279,6 +284,7 @@ export default function Home() {
         imageUrl: payload.image.data_url,
         isFallback: false
       });
+      setEditorOpen(false);
       setMode("companion_ready");
     } catch (error) {
       setApiErrorMessage(
@@ -288,6 +294,7 @@ export default function Home() {
         imageUrl: fallbackCompanionSrc,
         isFallback: true
       });
+      setEditorOpen(false);
       setMode("analysis_ready");
     } finally {
       setLoadingMessage(null);
@@ -298,6 +305,7 @@ export default function Home() {
     setAnalysis(null);
     setAnalysisUsedFallback(false);
     setCompanionImage(null);
+    setEditorOpen(false);
     setLoadingMessage(null);
     setApiErrorMessage(null);
   }
@@ -314,9 +322,9 @@ export default function Home() {
         <div className="hero-copy">
           <h1>CallCritter</h1>
           <p>
-            A scene-aware AI companion generator for a real camera space. This Prompt 02
-            build analyzes a captured scene with GPT-5.5 and generates a companion
-            preview with Image Gen.
+            A scene-aware AI companion generator for a real camera space. This Prompt 03
+            build analyzes a scene, generates a companion, and lets you composite it
+            on canvas.
           </p>
 
           <div className="mode-actions" aria-label="Scene source">
@@ -404,7 +412,7 @@ export default function Home() {
                 <h2>Companion generation</h2>
                 <p>
                   Mode: {companionMode}. One successful generation is allowed per browser
-                  session in this Prompt 02 build.
+                  session in this Prompt 03 build.
                 </p>
               </div>
               <button
@@ -420,9 +428,40 @@ export default function Home() {
         ) : null}
 
         {companionImage ? (
-          <CompanionPreview
-            imageUrl={companionImage.imageUrl}
-            isFallback={companionImage.isFallback}
+          <>
+            <CompanionPreview
+              imageUrl={companionImage.imageUrl}
+              isFallback={companionImage.isFallback}
+            />
+            <section className="stage-panel action-panel" aria-label="Canvas editor launch">
+              <div>
+                <h2>Scene compositing</h2>
+                <p>
+                  Open the canvas editor to place, blend, and export the companion over
+                  the captured scene.
+                </p>
+              </div>
+              <button
+                className="button primary"
+                type="button"
+                onClick={() => {
+                  setEditorOpen(true);
+                  setMode("canvas_editor");
+                }}
+                disabled={!snapshot}
+              >
+                Open Canvas Editor
+              </button>
+            </section>
+          </>
+        ) : null}
+
+        {editorOpen && snapshot && companionImage ? (
+          <CanvasEditor
+            sceneImageUrl={snapshot.imageUrl}
+            companionImageUrl={companionImage.imageUrl}
+            analysis={analysis}
+            isStickerFallback={companionImage.isFallback}
           />
         ) : null}
       </section>

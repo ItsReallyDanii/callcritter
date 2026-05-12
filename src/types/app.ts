@@ -8,6 +8,7 @@ export type AppMode =
   | "analysis_ready"
   | "generation_requested"
   | "companion_ready"
+  | "canvas_editor"
   | "error";
 
 export type SnapshotSource = "camera" | "demo";

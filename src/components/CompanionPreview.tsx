@@ -13,7 +13,7 @@ export function CompanionPreview({ imageUrl, isFallback = false }: CompanionPrev
           <p>
             {isFallback
               ? "Image generation failed, so a local fallback preview is shown."
-              : "Canvas placement comes in Prompt 03; this is only the generated asset preview."}
+              : "Generated asset preview. Use the canvas editor to place it on the scene."}
           </p>
         </div>
       </div>
