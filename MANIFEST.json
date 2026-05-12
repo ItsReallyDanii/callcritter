@@ -1,0 +1,32 @@
+{
+  "name": "CallCritter Context Pack",
+  "version": "0.1.0",
+  "purpose": "Canonical agent handoff pack for building the OpenAI DevDay 2026 CallCritter demo.",
+  "entrypoints": [
+    "START_HERE.md",
+    "AGENTS.md",
+    "prompts/PROMPT_01_SCAFFOLD.md"
+  ],
+  "locked_scope": {
+    "build": "Browser-first Next.js MVP",
+    "do_not_build": [
+      "Zoom plugin",
+      "OBS integration",
+      "virtual camera",
+      "native app",
+      "true AR/depth/occlusion",
+      "auth/accounts",
+      "persistent gallery",
+      "unlimited public generation"
+    ]
+  },
+  "core_flow": [
+    "camera_or_demo_scene",
+    "snapshot",
+    "gpt_5_5_scene_analysis",
+    "visible_scene_readout",
+    "image_gen_companion",
+    "canvas_overlay_editor",
+    "export_share_card"
+  ]
+}

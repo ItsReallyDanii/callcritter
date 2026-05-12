@@ -1,0 +1,7 @@
+Risk,Severity,Probability,Status,Mitigation,Tripwire
+Bad compositing / pasted PNG look,Critical,Medium,Mitigating,"Use sticker-frame fallback, soft shadows, opacity/tint controls, strong prompt constraints, and manual placement. Do not depend on perfect transparent PNG output.",Generated companion looks detached jagged green-screened or low-res in first demo recording.
+Camera permission failure,High,High,Mitigating,"First screen includes Try Demo Scene. Camera denial automatically routes to sample mode with no dead end.",Incognito browser or iOS test cannot complete the first 30 seconds.
+Image Gen latency slows demo,Medium,Medium,Open,"Use clear loading states, preloaded sample companion fallback, and keep prompt tight. Demo video covers ideal flow.",Average generation takes long enough that judge may abandon before result.
+Cost runaway after public posting,High,Medium,Mitigating,"One generation per session plus server-side IP/time-window limit. Demo mode and fallback assets remain free.",Unexpected spike in API spend or repeated calls from same client.
+Scope creep into Zoom/native/true AR,Critical,Medium,Controlled,"Locked non-goal. Browser snapshot/canvas only for contest MVP.",Any task mentions OBS virtual camera native plugin WebXR depth or accounts before submission.
+Looks generic like AI sticker/filter,High,Medium,Mitigating,"Show visible GPT-5.5 scene reasoning and placement logic. Use scene-aware companion generator language not filter.",User cannot tell why GPT-5.5 was needed.

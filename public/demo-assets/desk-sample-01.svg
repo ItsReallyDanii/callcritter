@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">CallCritter demo desk scene</title>
+  <desc id="desc">A stylized desk with a laptop, notebook, mug, lamp, and open space for a small companion.</desc>
+  <defs>
+    <linearGradient id="wall" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f5f0df"/>
+      <stop offset="1" stop-color="#d9e2d6"/>
+    </linearGradient>
+    <linearGradient id="desk" x1="0" x2="1">
+      <stop offset="0" stop-color="#8b6a4f"/>
+      <stop offset="1" stop-color="#b1835d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#wall)"/>
+  <rect y="472" width="1280" height="248" fill="url(#desk)"/>
+  <path d="M0 472h1280" stroke="#72533f" stroke-width="6"/>
+  <rect x="436" y="196" width="408" height="254" rx="22" fill="#27312f"/>
+  <rect x="464" y="224" width="352" height="198" rx="10" fill="#9fc6b1"/>
+  <path d="M380 470h520l56 74H324z" fill="#c7c9c1"/>
+  <path d="M510 492h260l18 24H492z" fill="#9fa39a"/>
+  <rect x="142" y="382" width="194" height="92" rx="14" fill="#e5dcc4"/>
+  <path d="M164 416h148M164 444h112" stroke="#8f7d62" stroke-width="8" stroke-linecap="round"/>
+  <rect x="930" y="382" width="118" height="94" rx="18" fill="#f2f4ed"/>
+  <path d="M1042 416h40c28 0 28 44 0 44h-40" fill="none" stroke="#f2f4ed" stroke-width="18"/>
+  <path d="M914 322c0-76 58-138 130-138" fill="none" stroke="#49615a" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="1062" cy="184" r="42" fill="#f6ce74"/>
+  <path d="M1042 228l92 62" stroke="#49615a" stroke-width="18" stroke-linecap="round"/>
+  <ellipse cx="996" cy="578" rx="162" ry="36" fill="#6d503e" opacity=".25"/>
+  <ellipse cx="262" cy="570" rx="174" ry="36" fill="#6d503e" opacity=".22"/>
+  <rect x="836" y="502" width="282" height="118" rx="28" fill="#cfd8ca" opacity=".8"/>
+  <path d="M882 562c56-34 132-33 190 0" fill="none" stroke="#79927e" stroke-width="12" stroke-linecap="round"/>
+  <text x="640" y="642" text-anchor="middle" fill="#3f453c" font-family="Arial, sans-serif" font-size="28" font-weight="700">
+    Demo scene placeholder
+  </text>
+</svg>
