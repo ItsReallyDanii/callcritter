@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { compositeScene, loadCanvasImage } from "@/lib/canvas/compositeScene";
-import { downloadCanvasPng } from "@/lib/canvas/exportCanvas";
+import { downloadCanvasPng, downloadShareCardPng } from "@/lib/canvas/exportCanvas";
 import {
   clamp,
   clampTransformToCanvas,
@@ -215,6 +215,16 @@ export function CanvasEditor({
     downloadCanvasPng(canvas);
   }
 
+  function handleShareCardDownload() {
+    const canvas = canvasRef.current;
+
+    if (!canvas) {
+      return;
+    }
+
+    downloadShareCardPng({ canvas, analysis });
+  }
+
   const displaySize =
     images && transform
       ? getCompanionDisplaySize(transform, {
@@ -247,6 +257,14 @@ export function CanvasEditor({
             disabled={!editorReady}
           >
             Download Scene PNG
+          </button>
+          <button
+            className="button primary"
+            type="button"
+            onClick={handleShareCardDownload}
+            disabled={!editorReady}
+          >
+            Export Share Card
           </button>
         </div>
       </div>

@@ -1,16 +1,22 @@
-# Cost Control — CallCritter
+# Cost Control - CallCritter
 
-## Main cost driver
+## Main Cost Driver
+
 Image generation is the main variable cost. GPT-5.5 scene analysis is secondary.
 
-## Required controls before public launch
-- One generation per browser session.
-- Server-side IP/time-window throttle.
-- Demo scene mode available without repeated generation.
-- Pre-generated fallback companions.
-- No batch generation in MVP.
+## Current Controls
 
-## Recommended defaults
+- One successful companion generation per browser session.
+- Demo scene mode avoids camera friction.
+- Fallback companion is available when generation fails.
+- No batch generation.
+- No persistent gallery that encourages repeated public use.
+
+## Required Before Public Launch
+
+Add server-side IP/time-window throttling before posting a public link broadly.
+
+Recommended defaults:
 
 ```txt
 MAX_GENERATIONS_PER_SESSION=1
@@ -18,8 +24,10 @@ MAX_GENERATIONS_PER_IP_WINDOW=3
 RATE_LIMIT_WINDOW_MINUTES=10
 ```
 
-## Public launch rule
-Do not post the playable link publicly until rate limiting is active.
+## Public Launch Rule
 
-## Spend stop rule
-If estimated spend exceeds $100 before final submission, stop adding generation features and use fallback assets for polish/testing.
+Do not post the playable link publicly until server-side rate limiting is active or the expected audience is tightly controlled.
+
+## Spend Stop Rule
+
+If estimated spend exceeds `$100` before final submission, stop adding generation features and use fallback assets for testing/polish.

@@ -1,8 +1,14 @@
 export function BuiltWithFooter() {
   return (
     <footer className="built-with-footer">
-      Built with GPT-5.5 + Image Gen. Prompt 03 adds canvas placement and PNG export;
-      the final branded share card is not implemented yet.
+      <strong>Built with GPT-5.5 + Image Gen</strong>
+      <span>CallCritter submission-ready demo.</span>
+      <a href="https://github.com/your-org/callcritter" rel="noreferrer" target="_blank">
+        GitHub repo placeholder
+      </a>
+      <a href="https://example.com/devday-submission-note" rel="noreferrer" target="_blank">
+        DevDay submission note placeholder
+      </a>
     </footer>
   );
 }

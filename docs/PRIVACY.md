@@ -1,19 +1,27 @@
-# Privacy — CallCritter
+# Privacy - CallCritter
 
-## Camera access
-Camera access is requested only after the user clicks `Use My Camera`. If camera access is denied, users can use demo mode.
+## Camera Access
 
-## Snapshot handling
-A snapshot is sent to the server only when the user chooses to analyze/generate. The app should not store snapshots in a database for the contest MVP.
+Camera access is requested only after the user clicks `Use My Camera`. If permission is denied, the app remains usable through demo mode.
 
-## No account requirement
-The app requires no login and stores no persistent user profile.
+## Snapshot Handling
 
-## Data flow disclosure
-The app sends the selected/captured image to a server-side API route, which forwards it to OpenAI for scene analysis. The generated companion image is returned to the browser.
+The browser keeps snapshots local until the user clicks `Analyze Scene`. At that point the selected image is sent to the server-side `/api/analyze` route and forwarded to OpenAI for scene analysis.
 
-## MVP policy
-- No persistent gallery.
-- No account system.
-- No hidden recording.
-- No automatic camera access on page load.
+## Storage
+
+CallCritter does not add accounts, persistent profiles, databases, galleries, analytics, or tracking. User snapshots and generated companions are not stored by the app.
+
+## OpenAI Data Flow
+
+- `/api/analyze`: receives the selected snapshot and sends it to OpenAI from the server.
+- `/api/generate`: receives the validated scene metadata and image prompt, then asks Image Gen for one companion.
+- The browser receives the generated image data for preview, canvas placement, and export.
+
+## Key Handling
+
+`OPENAI_API_KEY` must remain server-side. Do not create `NEXT_PUBLIC_OPENAI_API_KEY`.
+
+## User-Facing Reasoning
+
+The app shows concise structured scene fields only. It does not show private chain-of-thought.

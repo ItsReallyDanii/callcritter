@@ -1,106 +1,92 @@
-# Architecture — CallCritter
+# Architecture - CallCritter
 
-## Recommended stack
+## Stack
 
 - Next.js App Router
 - React + TypeScript
-- Tailwind or simple CSS modules
-- Browser `getUserMedia` for camera
-- HTML Canvas for compositing/export
+- Browser `getUserMedia`
+- HTML Canvas compositing/export
 - Server-side OpenAI API routes
-- Vercel deployment
+- Vercel deployment target
 
-## Data flow
+## Data Flow
 
 ```txt
 User camera/demo scene
   -> client snapshot capture
   -> POST /api/analyze
-  -> GPT-5.5 scene analysis JSON
-  -> UI scene readout
+  -> GPT-5.5 structured scene analysis
+  -> visible scene readout
   -> POST /api/generate
   -> Image Gen companion image
   -> canvas overlay editor
-  -> exported PNG scene card
+  -> scene PNG or branded share-card PNG
 ```
 
-## Proposed repo tree
+## Key Files
 
 ```txt
-callcritter/
-├─ README.md
-├─ AGENTS.md
-├─ .env.example
-├─ docs/
-│  ├─ JUDGES.md
-│  ├─ ARCHITECTURE.md
-│  ├─ BUILD_NOTES.md
-│  ├─ PRIVACY.md
-│  ├─ COST_CONTROL.md
-│  ├─ SUBMISSION.md
-│  ├─ RISK_REGISTER.md
-│  └─ DECISIONS.md
-├─ public/
-│  ├─ demo-assets/
-│  │  ├─ desk-sample-01.jpg
-│  │  ├─ room-sample-01.jpg
-│  │  └─ call-frame-sample-01.jpg
-│  └─ og-image.png
-├─ src/
-│  ├─ app/
-│  │  ├─ page.tsx
-│  │  ├─ layout.tsx
-│  │  ├─ globals.css
-│  │  └─ api/
-│  │     ├─ health/route.ts
-│  │     ├─ analyze/route.ts
-│  │     └─ generate/route.ts
-│  ├─ components/
-│  │  ├─ CameraStage.tsx
-│  │  ├─ DemoScenePicker.tsx
-│  │  ├─ CompanionOverlay.tsx
-│  │  ├─ OverlayControls.tsx
-│  │  ├─ SceneReadout.tsx
-│  │  ├─ ExportCard.tsx
-│  │  ├─ LoadingState.tsx
-│  │  ├─ ErrorBanner.tsx
-│  │  └─ BuiltWithFooter.tsx
-│  ├─ lib/
-│  │  ├─ openai/client.ts
-│  │  ├─ openai/analyzeScene.ts
-│  │  ├─ openai/generateCompanion.ts
-│  │  ├─ prompts/sceneAnalysisPrompt.ts
-│  │  ├─ prompts/imagePromptTemplates.ts
-│  │  ├─ canvas/captureFrame.ts
-│  │  ├─ canvas/compositeExport.ts
-│  │  ├─ canvas/transform.ts
-│  │  ├─ rateLimit/sessionLimit.ts
-│  │  └─ rateLimit/ipLimit.ts
-│  └─ types/scene.ts
+src/app/page.tsx
+src/app/api/health/route.ts
+src/app/api/analyze/route.ts
+src/app/api/generate/route.ts
+src/components/CameraStage.tsx
+src/components/DemoScenePicker.tsx
+src/components/SceneReadout.tsx
+src/components/CompanionPreview.tsx
+src/components/CanvasEditor.tsx
+src/components/BuiltWithFooter.tsx
+src/lib/openai/client.ts
+src/lib/openai/analyzeScene.ts
+src/lib/openai/generateCompanion.ts
+src/lib/prompts/sceneAnalysisPrompt.ts
+src/lib/prompts/imagePromptTemplates.ts
+src/lib/camera/captureFrame.ts
+src/lib/canvas/compositeScene.ts
+src/lib/canvas/exportCanvas.ts
+src/lib/canvas/transform.ts
+src/types/app.ts
+src/types/scene.ts
 ```
 
-## API routes
+## API Routes
 
 ### `GET /api/health`
-Returns app health and confirms server routes work.
+
+Returns app health and current scope. Prompt 04 expects `prompt-04-submission-polish`.
 
 ### `POST /api/analyze`
-Input: base64 image, selected companion mode.
+
+Input: base64 image or image data URL plus companion mode.  
 Output: validated scene analysis JSON.
 
 ### `POST /api/generate`
-Input: image prompt, mode, optional style constraints.
-Output: base64 image or image URL.
+
+Input: image prompt, companion mode, and validated scene metadata.  
+Output: base64/data URL companion image or clear JSON error.
 
 ## Security
+
 - `OPENAI_API_KEY` lives server-side only.
 - No `NEXT_PUBLIC_OPENAI_API_KEY`.
 - No client-side direct OpenAI calls.
-- Public generation should be gated.
+- No raw user images are logged.
+- No accounts, database, or persistent gallery.
 
-## Known technical issue
-Generated images may not have clean transparency. Use fallback styles:
+## Cost Control
 
-1. Ask for isolated character on simple high-contrast background.
-2. Attempt client-side background removal/masking.
-3. If masking looks bad, display companion as a designed sticker/card with shadow.
+The app currently has a one-successful-generation-per-session browser guard. Server-side IP/time-window throttling is still required before broad public launch.
+
+## Canvas Export
+
+The canvas compositor draws:
+
+- captured/demo scene background
+- optional tint around companion placement
+- companion image
+- soft shadow or sticker-frame fallback
+
+Exports:
+
+- raw composed scene PNG
+- branded share card PNG with CallCritter, companion name, share caption, `Built with GPT-5.5 + Image Gen`, and `#OpenAIDevDay2026`

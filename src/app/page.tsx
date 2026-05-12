@@ -95,7 +95,7 @@ export default function Home() {
       case "companion_ready":
         return "Companion preview ready";
       case "canvas_editor":
-        return "Canvas editor ready";
+        return "Ready to export";
       case "error":
         return "Camera fallback active";
       case "idle":
@@ -322,9 +322,8 @@ export default function Home() {
         <div className="hero-copy">
           <h1>CallCritter</h1>
           <p>
-            A scene-aware AI companion generator for a real camera space. This Prompt 03
-            build analyzes a scene, generates a companion, and lets you composite it
-            on canvas.
+            Snap a real or demo scene, let GPT-5.5 read the space, generate a tiny
+            companion with Image Gen, place it by hand, and export a shareable card.
           </p>
 
           <div className="mode-actions" aria-label="Scene source">
@@ -343,6 +342,8 @@ export default function Home() {
           <p>{statusLabel}</p>
         </aside>
       </section>
+
+      <WorkflowSteps currentMode={mode} hasAnalysis={Boolean(analysis)} hasCompanion={Boolean(companionImage)} />
 
       {errorMessage ? <ErrorBanner message={errorMessage} /> : null}
       {apiErrorMessage ? <ErrorBanner title="AI request failed." message={apiErrorMessage} /> : null}
@@ -469,6 +470,61 @@ export default function Home() {
       <BuiltWithFooter />
     </main>
   );
+}
+
+function WorkflowSteps({
+  currentMode,
+  hasAnalysis,
+  hasCompanion
+}: {
+  currentMode: AppMode;
+  hasAnalysis: boolean;
+  hasCompanion: boolean;
+}) {
+  const activeStep = getActiveStep(currentMode, hasAnalysis, hasCompanion);
+  const steps = [
+    "Capture scene",
+    "Analyze with GPT-5.5",
+    "Generate companion",
+    "Place companion",
+    "Export"
+  ];
+
+  return (
+    <nav className="workflow-steps" aria-label="CallCritter workflow">
+      {steps.map((step, index) => {
+        const stepNumber = index + 1;
+        const state = stepNumber < activeStep ? "complete" : stepNumber === activeStep ? "active" : "";
+
+        return (
+          <div className={`workflow-step ${state}`} key={step}>
+            <span>{stepNumber}</span>
+            <strong>{step}</strong>
+          </div>
+        );
+      })}
+    </nav>
+  );
+}
+
+function getActiveStep(mode: AppMode, hasAnalysis: boolean, hasCompanion: boolean) {
+  if (mode === "canvas_editor") {
+    return 5;
+  }
+
+  if (hasCompanion || mode === "companion_ready") {
+    return 4;
+  }
+
+  if (hasAnalysis || mode === "analysis_ready" || mode === "generation_requested") {
+    return 3;
+  }
+
+  if (mode === "snapshot_captured" || mode === "analysis_requested") {
+    return 2;
+  }
+
+  return 1;
 }
 
 async function imageUrlToPngDataUrl(src: string) {

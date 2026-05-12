@@ -1,24 +1,26 @@
 # CallCritter
 
-CallCritter is a browser-first OpenAI DevDay 2026 contest scaffold for a scene-aware AI companion generator. The intended full app uses GPT-5.5 for scene analysis, Image Gen for companion creation, and canvas compositing for user-controlled placement.
+CallCritter is a browser-first OpenAI DevDay 2026 demo that turns a real or demo camera scene into a tiny scene-aware AI companion composition.
 
-## Prompt 03 Scope
+Live demo: `[VERCEL_LIVE_DEMO_URL]`  
+Repository / build notes: `[REPO_OR_BUILD_NOTES_URL]`
 
-Prompt 03 adds canvas placement and basic compositing:
+## What It Does
 
-- `CanvasEditor` renders the captured camera/demo scene as a canvas background.
-- The generated or fallback companion is drawn over the scene.
-- Users can drag, scale, rotate, reset placement, adjust opacity, toggle soft shadow, toggle sticker-frame fallback, and toggle a subtle scene blend tint.
-- `Download Scene PNG` exports the current scene + companion composition.
+1. Capture a scene with camera mode or demo mode.
+2. Send the snapshot to a server-side GPT-5.5 scene-analysis route.
+3. Show a concise scene readout: summary, lighting, mood, attachment points, character concept, placement recommendation, and share caption.
+4. Generate a companion image with Image Gen from the GPT-created prompt.
+5. Place the companion on a canvas with drag, scale, rotate, opacity, shadow, sticker-frame, and blend controls.
+6. Export either the raw scene PNG or a branded share card with `#OpenAIDevDay2026`.
 
-Prompt 02 behavior remains in place:
+## How GPT-5.5 Is Used
 
-- `POST /api/analyze` accepts a captured image and companion mode, then returns validated scene JSON.
-- `POST /api/generate` accepts the GPT-created image prompt plus scene metadata, then returns a companion image data URL.
-- Missing API keys and OpenAI failures return user-readable JSON errors.
-- A temporary client-side guard allows one successful companion generation per browser session.
+`POST /api/analyze` forwards the user-selected snapshot to OpenAI from a server-only route. GPT-5.5 returns structured JSON that is validated before it is shown in the UI. The app displays only concise user-facing fields, not private chain-of-thought.
 
-Still not included: final branded submission card, auth, accounts, persistent storage, Zoom, OBS, virtual camera, true AR, or video generation.
+## How Image Gen Is Used
+
+`POST /api/generate` takes the validated scene analysis and GPT-created `image_prompt`, then calls Image Gen to create one companion asset. The browser receives image data for preview and canvas placement.
 
 ## Local Run
 
@@ -54,13 +56,9 @@ Do not add `NEXT_PUBLIC_OPENAI_API_KEY`. The client never calls OpenAI directly.
 
 ## API Routes
 
-Health:
-
 ```bash
 curl http://localhost:3000/api/health
 ```
-
-Analyze:
 
 ```bash
 curl -X POST http://localhost:3000/api/analyze \
@@ -68,25 +66,13 @@ curl -X POST http://localhost:3000/api/analyze \
   -d '{"image":"data:image/png;base64,...","mode":"Desk Critter"}'
 ```
 
-Generate:
-
 ```bash
 curl -X POST http://localhost:3000/api/generate \
   -H "Content-Type: application/json" \
   -d '{"image_prompt":"tiny friendly desk critter, clean silhouette","mode":"Desk Critter","scene_metadata":{...}}'
 ```
 
-With no `OPENAI_API_KEY`, both AI routes return:
-
-```json
-{
-  "ok": false,
-  "error": {
-    "code": "missing_openai_api_key",
-    "message": "OpenAI API key missing. Add OPENAI_API_KEY to .env.local."
-  }
-}
-```
+With no `OPENAI_API_KEY`, both AI routes return a clear missing-key error instead of crashing.
 
 ## Validation Checklist
 
@@ -94,12 +80,34 @@ With no `OPENAI_API_KEY`, both AI routes return:
 - `npm run lint`
 - `npm run typecheck`
 - `npm run build`
-- `GET /api/health` returns JSON.
-- With no `OPENAI_API_KEY`, `/api/analyze` and `/api/generate` return helpful JSON errors.
-- With `OPENAI_API_KEY`, camera or demo snapshots can be analyzed.
-- GPT-5.5 scene readout appears in the UI.
-- Generated companion preview appears in the UI.
-- Canvas editor opens after companion generation.
-- Drag, scale, rotate, opacity, reset, sticker-frame, shadow, and blend controls update the canvas.
+- `npm audit --audit-level=moderate`
+- `GET /api/health` returns `prompt-04-submission-polish`.
+- App opens without login.
+- Demo mode works without camera permission.
+- Missing-key analyze/generate errors are readable.
+- With a valid key, scene analysis appears in the UI.
+- With a valid key, generated companion preview appears in the UI.
+- Canvas editor opens.
+- Drag, scale, rotate, opacity, reset, sticker-frame, shadow, and tint controls update the canvas.
 - `Download Scene PNG` exports scene + companion only.
-- Final branded share card is not present yet.
+- `Export Share Card` exports composed scene, companion name, caption, CallCritter branding, `Built with GPT-5.5 + Image Gen`, and `#OpenAIDevDay2026`.
+
+## Known Limitations
+
+- This is not true AR, depth sensing, occlusion, Zoom, OBS, virtual camera, native app, or video generation.
+- Public launch still needs server-side IP/time-window rate limiting; the current app has a one-generation-per-session browser guard.
+- Generated images may not have clean transparency, so the canvas includes soft shadow and sticker-frame fallback controls.
+- No accounts, persistent gallery, analytics, payments, or storage are included.
+
+## Privacy And Cost Notes
+
+- Camera access starts only after `Use My Camera`.
+- Demo mode works when camera permission is denied.
+- Snapshots are sent to the server only when the user clicks `Analyze Scene`.
+- User snapshots are not stored in a database.
+- `OPENAI_API_KEY` is server-side only.
+- Image generation is the main cost driver; keep public links gated until server-side rate limiting is active.
+
+## Contest Submission
+
+Use `docs/SUBMISSION.md` for final post copy and `docs/FINAL_SMOKE_TEST.md` for the final pre-submit checklist. Do not post the final submission until the live demo URL, repo/build notes URL, production env vars, and production smoke test are complete.

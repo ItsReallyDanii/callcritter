@@ -1,38 +1,51 @@
-# Judges Guide — CallCritter
+# Judges Guide - CallCritter
 
-## 10-second explanation
-CallCritter turns your real camera scene into a tiny AI companion scene.
+## 10-Second Explanation
 
-Open the link, snap your desk or room, and GPT-5.5 reads the environment. Image Gen creates a companion that fits the scene. You can drag, scale, rotate, and export the final card.
+CallCritter turns a real camera or demo scene into a tiny AI companion composition. GPT-5.5 reads the scene and writes a structured readout plus image prompt. Image Gen creates the companion. The user places it on a canvas and exports a share card.
 
-## What GPT-5.5 does
-GPT-5.5 analyzes the scene and returns:
+## Fast Test Path
+
+1. Open `[VERCEL_LIVE_DEMO_URL]`.
+2. Choose `Try Demo Scene` if camera access is inconvenient.
+3. Capture the scene.
+4. Click `Analyze Scene`.
+5. Review the visible GPT-5.5 scene readout.
+6. Click `Generate Companion`.
+7. Open the canvas editor.
+8. Drag, scale, rotate, or adjust opacity.
+9. Download the scene PNG or share card.
+
+## What GPT-5.5 Does
+
+GPT-5.5 analyzes the captured image and returns validated JSON containing:
 
 - scene summary
 - lighting
 - mood
-- possible attachment points
-- character concept
-- character name
+- likely attachment points
+- character concept and name
 - visual style
 - Image Gen prompt
 - placement recommendation
 - safety notes
 - share caption
 
-This readout is visible in the app.
+The UI displays concise final fields only. It does not show private chain-of-thought.
 
-## What Image Gen does
-Image Gen creates the companion asset from the GPT-5.5-generated prompt. The output is composited onto the user's scene.
+## What Image Gen Does
 
-## How to test
-1. Open the live link.
-2. Choose `Use My Camera` or `Try Demo Scene`.
-3. Capture a scene.
-4. Review the GPT-5.5 scene readout.
-5. Generate the companion.
-6. Drag/scale/rotate it.
-7. Export the final card.
+Image Gen creates one companion asset from the GPT-5.5-generated prompt and scene metadata. The generated asset appears in the app, then the user places it manually on the scene.
 
-## Intentional limitations
-This is not claiming true AR, depth sensing, occlusion, native Zoom integration, or a virtual camera. It is a browser-first playable demo optimized for speed, clarity, and shareability.
+## Why Manual Placement
+
+Manual drag/scale/rotate is intentional. It is more reliable than pretending to provide true AR, depth sensing, or occlusion. GPT-5.5 recommends placement; the user makes the final composition.
+
+## Export Outputs
+
+- `Download Scene PNG`: scene plus companion only.
+- `Export Share Card`: composed scene, companion name, share caption, CallCritter label, `Built with GPT-5.5 + Image Gen`, and `#OpenAIDevDay2026`.
+
+## Intentional Limitations
+
+No login, accounts, persistent gallery, Zoom, OBS, virtual camera, true AR/depth/occlusion, analytics, payments, or video generation are included.
