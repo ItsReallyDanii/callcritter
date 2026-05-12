@@ -16,5 +16,5 @@ export function captureFrame(video: HTMLVideoElement): string {
   }
 
   context.drawImage(video, 0, 0, width, height);
-  return canvas.toDataURL("image/png");
+  return canvas.toDataURL("image/jpeg", 0.86);
 }

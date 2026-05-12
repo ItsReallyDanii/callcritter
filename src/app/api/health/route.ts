@@ -4,6 +4,6 @@ export function GET() {
   return NextResponse.json({
     ok: true,
     service: "callcritter",
-    scope: "prompt-01-scaffold"
+    scope: "prompt-02-core-ai-endpoints"
   });
 }

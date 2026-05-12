@@ -114,6 +114,13 @@ button {
   transform: translateY(-1px);
 }
 
+.button:disabled,
+.button:disabled:hover {
+  cursor: not-allowed;
+  opacity: 0.58;
+  transform: none;
+}
+
 .button:focus-visible,
 .scene-option:focus-visible {
   outline: 3px solid rgba(37, 111, 90, 0.28);
@@ -206,6 +213,13 @@ button {
   padding: 1rem;
 }
 
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
 .scene-preview {
   aspect-ratio: 16 / 9;
   background: var(--surface-strong);
@@ -269,6 +283,159 @@ video.scene-preview {
   color: #6f4a19;
 }
 
+.loading-state {
+  align-items: center;
+  background: #eaf4ee;
+  border: 1px solid rgba(37, 111, 90, 0.35);
+  border-radius: 0.5rem;
+  color: var(--accent-strong);
+  display: inline-flex;
+  font-weight: 800;
+  gap: 0.7rem;
+  padding: 0.9rem 1rem;
+}
+
+.loading-dot {
+  animation: pulse 1s ease-in-out infinite;
+  background: var(--accent);
+  border-radius: 999px;
+  display: inline-block;
+  height: 0.65rem;
+  width: 0.65rem;
+}
+
+.readout-panel,
+.companion-panel,
+.action-panel {
+  overflow: hidden;
+}
+
+.readout-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 1rem;
+}
+
+.readout-item {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+}
+
+.readout-item span,
+.attachment-list h3 {
+  color: var(--muted);
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.readout-item p,
+.attachment-item p,
+.attachment-item small,
+.action-panel p,
+.companion-panel p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.readout-item p {
+  color: var(--text);
+  margin: 0.45rem 0 0;
+}
+
+.attachment-list {
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+}
+
+.attachment-list > div {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0.75rem;
+}
+
+.attachment-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.9rem;
+}
+
+.attachment-item strong {
+  display: block;
+}
+
+.attachment-item p {
+  margin: 0.45rem 0;
+}
+
+.attachment-item small {
+  display: block;
+}
+
+.action-panel {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.action-panel h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.action-panel p {
+  margin: 0.45rem 0 0;
+}
+
+.companion-preview-frame {
+  align-items: center;
+  background:
+    linear-gradient(45deg, rgba(37, 111, 90, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(37, 111, 90, 0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(37, 111, 90, 0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(37, 111, 90, 0.08) 75%),
+    var(--surface-strong);
+  background-position:
+    0 0,
+    0 12px,
+    12px -12px,
+    -12px 0;
+  background-size: 24px 24px;
+  display: flex;
+  justify-content: center;
+  min-height: 380px;
+  padding: 2rem;
+}
+
+.companion-preview-frame img {
+  height: auto;
+  max-height: 360px;
+  max-width: min(360px, 100%);
+  object-fit: contain;
+  width: 100%;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .built-with-footer {
   border-top: 1px solid var(--border);
   font-size: 0.9rem;
@@ -292,17 +459,37 @@ video.scene-preview {
   }
 
   .stage-toolbar,
-  .error-banner {
+  .error-banner,
+  .action-panel {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .stage-toolbar .button {
+  .stage-toolbar .button,
+  .action-panel .button,
+  .toolbar-actions {
     width: 100%;
+  }
+
+  .toolbar-actions {
+    flex-direction: column;
   }
 
   .scene-list {
     border-left: 0;
     border-top: 1px solid var(--border);
+  }
+
+  .readout-grid,
+  .attachment-list > div {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .loading-dot {
+    animation: none;
+    transition: none;
   }
 }

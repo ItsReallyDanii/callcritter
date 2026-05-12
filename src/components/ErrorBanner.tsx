@@ -1,11 +1,12 @@
 type ErrorBannerProps = {
   message: string;
+  title?: string;
 };
 
-export function ErrorBanner({ message }: ErrorBannerProps) {
+export function ErrorBanner({ message, title = "Camera unavailable." }: ErrorBannerProps) {
   return (
     <div className="error-banner" role="alert">
-      <strong>Camera unavailable.</strong>
+      <strong>{title}</strong>
       <span>{message}</span>
     </div>
   );

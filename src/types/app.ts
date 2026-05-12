@@ -4,6 +4,10 @@ export type AppMode =
   | "camera_ready"
   | "demo_ready"
   | "snapshot_captured"
+  | "analysis_requested"
+  | "analysis_ready"
+  | "generation_requested"
+  | "companion_ready"
   | "error";
 
 export type SnapshotSource = "camera" | "demo";

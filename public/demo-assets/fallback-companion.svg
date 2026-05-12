@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="title desc">
+  <title id="title">Fallback companion</title>
+  <desc id="desc">A friendly placeholder companion for CallCritter generation failures.</desc>
+  <rect width="640" height="640" rx="96" fill="#f7f7f2"/>
+  <ellipse cx="320" cy="490" rx="170" ry="38" fill="#173f35" opacity=".18"/>
+  <path d="M198 286c0-90 52-158 122-158s122 68 122 158v82c0 72-55 124-122 124s-122-52-122-124z" fill="#77c7a1" stroke="#153f35" stroke-width="18"/>
+  <path d="M224 196c-48-42-78-44-90-28-13 19 16 63 72 86" fill="#77c7a1" stroke="#153f35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M416 196c48-42 78-44 90-28 13 19-16 63-72 86" fill="#77c7a1" stroke="#153f35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="276" cy="300" r="17" fill="#153f35"/>
+  <circle cx="364" cy="300" r="17" fill="#153f35"/>
+  <path d="M288 364c22 20 42 20 64 0" fill="none" stroke="#153f35" stroke-width="16" stroke-linecap="round"/>
+  <path d="M210 404c-34 6-56 24-66 54M430 404c34 6 56 24 66 54" fill="none" stroke="#153f35" stroke-width="18" stroke-linecap="round"/>
+</svg>
